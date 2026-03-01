@@ -4,6 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Etusivu</title>
+
+        <!-- Manuaalinen style, Bootstrap CSS ja JS linkitys -->
+
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -11,7 +14,7 @@
         <link rel="stylesheet" href="assets/style.css" />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </head>
-
+    .
     <body>
         <!-- Navbar, kurssin ohjeiden mukaisesti toteutettu -->
         <nav class="navbar navbar-expand-sm navbar-dark">
@@ -35,96 +38,104 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Etusivu</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="grid.html">Ruudukko</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="cards.html">Kortit</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="table.html">Taulukko</a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                                >Lisää</a
+                            <a class="nav-link" href="index.html"
+                                >Etusivu (Tehtävä 1 OSA I)</a
                             >
-                            <ul
-                                class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="kolmas.html"
+                                >Tehtävä 1 OSA II</a
                             >
-                                <li>
-                                    <a
-                                        class="dropdown-item"
-                                        href="accordion.html"
-                                        >Haitari</a
-                                    >
-                                </li>
-                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="poke.html"
+                                >Poke haku (Tehtävä 2 OSA I)</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="eevee.html"
+                                >Tehtävä 2 Osa II</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="saa.html">Tehtävä 3</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <main class="container my-5">
-            <h1 class="text-center mb-4">Tervetuloa!</h1>
+        <main>
+            <div id="vastaus"></div>
 
-            <!-- Karusellin perustoiminta,
-            jokainen carousel-item on aktiivinen kuva
-            joka ottaa kuvia satunnaisesti picsum.photos sivuilta -->
+            <script>
+                fetch("tietue.JSON")
+                    // Muunnetaan vastaus JSON-tietue JS Olio muotoon
+                    .then(function (response) {
+                        return response.json();
+                    })
 
-            <div id="carouselExample" class="carousel slide carousel-fade">
-                <div class="carousel-inner rounded shadow">
-                    <div class="carousel-item active">
-                        <img
-                            src="https://picsum.photos/1200/400?1"
-                            class="d-block w-100"
-                            alt="kuva / image"
-                        />
-                    </div>
-                    <div class="carousel-item">
-                        <img
-                            src="https://picsum.photos/1200/400?2"
-                            class="d-block w-100"
-                            alt="kuva / image"
-                        />
-                    </div>
-                    <div class="carousel-item">
-                        <img
-                            src="https://picsum.photos/1200/400?3"
-                            class="d-block w-100"
-                            alt="kuva / image"
-                        />
-                    </div>
-                </div>
+                    //Käsitellään muunnettu (eli JSON muotoinen) vastaus
+                    // Kutsutaan funktiota kerro()ja välitetään sille json-vastaus
 
-                <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="prev"
-                >
-                    <span class="carousel-control-prev-icon"></span>
-                </button>
-                <button
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carouselExample"
-                    data-bs-slide="next"
-                >
-                    <span class="carousel-control-next-icon"></span>
-                </button>
-            </div>
+                    .then(function (responseJson) {
+                        kerro(responseJson);
+                    })
+
+                    // Jos tuli jokin virhe
+
+                    .catch(function (error) {
+                        document.getElementById("vastaus").innerHTML =
+                            "<p>Tietoa ei pystytä hakemaan</p>";
+                    });
+
+                //Funktio joka hakee tiedon objektista ja kirjoittaa ne sivulle
+
+                function kerro(obj) {
+                    let tiedot =
+                        "<h1>" +
+                        obj.otsikko +
+                        "</h1><br>" +
+                        obj.kuvaus +
+                        "<br><hr>" +
+                        //kuvan määäritteleminen
+                        "<p><img src=" +
+                        obj.kuva +
+                        "></p>" +
+                        //keskitetään teksi center-tagillä keskelle
+                        "<center><h3>" +
+                        "Opintojakso" +
+                        "</h3>" +
+                        "Nimi: " +
+                        obj.opintojakso.nimi +
+                        "<br>" +
+                        "Tunnus: " +
+                        obj.opintojakso.tunnus +
+                        "<br>" +
+                        "Opintopisteet: " +
+                        obj.opintojakso.opintopisteet +
+                        "<br></center>";
+
+                    //Lisätään väliotsikko
+
+                    tiedot += "<p><h3> Aiheet </h3>";
+
+                    //for-silmukka, joka luo myös linkit sivulle
+                    for (var i = 0; i < obj.tekniikat.length; i++) {
+                        tiedot += "<b>Aihe: " + obj.tekniikat[i].aihe + "</b>";
+                        tiedot +=
+                            " <a href=" +
+                            obj.tekniikat[i].linkki +
+                            ">" +
+                            obj.tekniikat[i].linkki +
+                            "</a>" +
+                            "<br>";
+                    }
+                    tiedot += "</p>";
+
+                    document.getElementById("vastaus").innerHTML = tiedot;
+                }
+            </script>
         </main>
 
         <p class="text-center">

@@ -46,7 +46,11 @@ body {
 main {
     min-height: 60vh;
     padding: 2.5rem 6%;
+    margin-bottom: 50px;
 }
+
+
+/*========== #VASTAUS-tyylit Tehtäviä 1 - I ja II varten ==========*/
 
 /*========== JSON container ==========*/
 #vastaus {
@@ -92,12 +96,129 @@ main {
 
 #vastaus img {
     width: 100%;
-    max-width: 520px;
+    max-width: 1220px;
     display: block;
     margin: 1.5rem auto;
     border-radius: 0.75rem;
     box-shadow: 0 0 12px rgba(255, 100, 255, 0.15);
 }
+
+/*========== #POKE Tehtäviä 2 - I ja II varten ==========*/
+
+/*========== Container ==========*/
+
+#poke {
+    background-color: rgb(15, 0, 19);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 0 24px rgba(255, 0, 212, 0.12);
+    max-width: 520px;
+    margin: 3rem auto;
+    text-align: center;
+}
+
+/*========== Pokemon tekstit ==========*/
+
+#poke h1 {
+    color: #ffffff;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+#poke p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+#poke hr {
+    border-color: rgba(255, 255, 255, 0.12);
+    margin: 1rem 0 1.5rem;
+}
+
+/*========== Input & Select ==========*/
+
+#poke input,
+#poke select {
+    width: 100%;
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+#poke input::placeholder {
+    color: var(--text-muted);
+}
+
+#poke input:focus,
+#poke select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 8px rgba(111, 66, 193, 0.4);
+}
+
+/*========== Button ==========*/
+
+#poke button {
+    width: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.6rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#poke button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(111, 66, 193, 0.5);
+}
+
+#poke button:active {
+    transform: translateY(0);
+    box-shadow: 0 0 6px rgba(111, 66, 193, 0.4);
+}
+
+/*========== Pokemon nimi ==========*/
+
+#poke #nimi {
+    font-size: 1.15rem;
+    margin-top: 0.75rem;
+    min-height: 1.6rem;
+    color: #ffffff;
+}
+
+/*========== Pokemon kuva ==========*/
+
+#poke #kuva2 img {
+    width: 80%;
+    margin: 1rem auto 0;
+    display: block;
+    filter: drop-shadow(0 0 12px rgba(111, 66, 193, 0.5));
+    animation: pokePop 0.3s ease-out;
+}
+
+/*========== Pieni animaatio kuvalle ==========*/
+
+@keyframes pokePop {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 
 /* ========== Footer ========== */
 

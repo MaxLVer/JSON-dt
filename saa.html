@@ -63,8 +63,9 @@
                 });
             
             // Muutetaan OpenWeatherMap API:n dt-kenttä (UNIX-aikaleima) luettavaksi kellonajaksi
+            // Replace-metodi jotta saadaan pisteet kaksoispisteiksi... Ehkä olemassa helpompikin tapa, mutta toimii
             function saaAika(obj) {
-                return new Date(obj.dt * 1000).toLocaleTimeString('fi-FI', { hour: '2-digit', minute: '2-digit' });
+                return new Date(obj.dt * 1000).toLocaleTimeString('fi-FI', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
             }
 
             // Näytetään sää sivulla

@@ -52,8 +52,8 @@
             <hr>
 
             <input type="text" id="pokemonName" placeholder="Enter Pokemon name">
+            <select id="pokemonSelect"></select>
             <button onclick="poke()">Hae</button>
-            <select id="pokemonSelect">
             </select>
 
             <div id="nimi">Kirjoita nimi tai valitse listasta</div>
@@ -65,6 +65,13 @@
         <script>
             // Lataa kaikki Pokémon-nimet dropdowniin, 
             // ei tehtävänannon mukaan tarpeellinen, mutta helpotti testausta.
+
+            // Globaalit muuttujat tallentavat haetun Pokémonin, kääntämistä varten
+            let currentPokemon = null;
+            let showingBack = false;
+
+            // ========== Dropdownin lataus ==========
+
             fetch("https://pokeapi.co/api/v2/pokemon?limit=2000")
                 .then(response => {
                     // Tarkistetaan että palvelin vastasi oikein
@@ -93,6 +100,8 @@
                     document.getElementById("nimi").innerHTML =
                         "Pokémon-listaa ei voitu ladata...";
                 });
+
+            // ========== Pokémonin haku ja näyttö ==========
 
             // Hae Pokémonit
             function poke() {
@@ -129,6 +138,9 @@
                             throw new Error("Kuvaa ei saatavilla");
                         }
 
+                        currentPokemon = data;
+                        showingBack = false; // Oletuksena etupuoli, niin pidetään false
+
                         pokekuva(data, pokeName);
                     })
                     .catch(error => {
@@ -142,20 +154,49 @@
                 //Kommenttien sisältöä myös luotu samalla tavalla.
             }
 
-            // Näytä kuva ja nimi
+            // ========== Pokémonin kuva ja nimi + Statsit==========
             function pokekuva(obj, name) {
-                const pokeurl = obj.sprites.front_default;
+                const sprite = showingBack
+                    ? obj.sprites.back_default
+                    : obj.sprites.front_default;
 
-                document.getElementById("kuva2").innerHTML = `<img src="${pokeurl}" alt="Pokemonin kuva">`;
-                document.getElementById("nimi").innerHTML =
-                    `<b>${name.charAt(0).toUpperCase() + name.slice(1)}</b>`;
+                    // Näytä kuva ja käännä-painike
+                document.getElementById("kuva2").innerHTML = `
+                    <img src="${sprite}" alt="Pokemonin kuva">
+                    <br>
+                    <button onclick="kaanna()">Käännä</button>
+                    `;
 
-                // Tyhjennetään kentät haun jälkeen
+                    // Näytä Pokémonin nimi, tyyppi ja statsit.
+                document.getElementById("nimi").innerHTML = `
+                    <b>${name.charAt(0).toUpperCase() + name.slice(1)}</b><br>
+                    A ${obj.types[0].type.name.charAt(0).toUpperCase() + obj.types[0].type.name.slice(1)} type Pokémon<br>
+                    <br>
+                    <b>Stats:</b><br>
+                    HP: ${obj.stats[0].base_stat}<br>
+                    Attack: ${obj.stats[1].base_stat}<br>
+                    Defense: ${obj.stats[2].base_stat}<br>
+                    Speed: ${obj.stats[5].base_stat}<br>
+                    Base XP: ${obj.base_experience}<br>
+                    Height: ${obj.height} │ Weight: ${obj.weight}<br>
+                    `;
+
                 document.getElementById("pokemonName").value = "";
                 document.getElementById("pokemonSelect").value = "";
             }
-        </script>
 
+            // Käännä kuvaa, eli vaihda front/back ja päivitä kuva
+            function kaanna() {
+                //Jos tyhjä, ei tehdä mitään
+                if (!currentPokemon) return;
+
+                // Vaihdetaan front/back
+                showingBack = !showingBack;
+
+                // Päivitetään kuva
+                pokekuva(currentPokemon, currentPokemon.name);
+            }
+        </script>
 
     </main>
 

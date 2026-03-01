@@ -53,7 +53,7 @@
 
             <input type="text" id="pokemonName" placeholder="Enter Pokemon name">
             <button onclick="poke()">Hae</button>
-                        <select id="pokemonSelect">
+            <select id="pokemonSelect">
             </select>
 
             <div id="nimi">Kirjoita nimi tai valitse listasta</div>
@@ -62,104 +62,104 @@
 
         </div>
 
-<script>
-    // Lataa kaikki Pokémon-nimet dropdowniin, 
-    // ei tehtävänannon mukaan tarpeellinen, mutta helpotti testausta.
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=2000")
-        .then(response => {
-            // Tarkistetaan että palvelin vastasi oikein
-            if (!response.ok) throw new Error("Verkkovirhe ladattaessa listaa");
-            return response.json();
-        })
-        .then(data => {
+        <script>
+            // Lataa kaikki Pokémon-nimet dropdowniin, 
+            // ei tehtävänannon mukaan tarpeellinen, mutta helpotti testausta.
+            fetch("https://pokeapi.co/api/v2/pokemon?limit=2000")
+                .then(response => {
+                    // Tarkistetaan että palvelin vastasi oikein
+                    if (!response.ok) throw new Error("Verkkovirhe ladattaessa listaa");
+                    return response.json();
+                })
+                .then(data => {
 
-            const select = document.getElementById("pokemonSelect");
+                    const select = document.getElementById("pokemonSelect");
 
-            // Dropdownin ensimmäinen vaihtoehto, yhtä kuin tyhjä valinta
-            select.innerHTML = '<option value="">Pokédex</option>';
+                    // Dropdownin ensimmäinen vaihtoehto, yhtä kuin tyhjä valinta
+                    select.innerHTML = '<option value="">Pokédex</option>';
 
-            // Käydään läpi kaikki Pokémonit ja lisätään ne dropdowniin
-            data.results.forEach(p => {
-                const opt = document.createElement("option");
-                opt.value = p.name;
-                //
-                opt.textContent = p.name.charAt(0).toUpperCase() + p.name.slice(1);
-                select.appendChild(opt);
-            });
-        })
-        .catch(error => {
-            // Näytetään virhe
-            console.error("Virhe ladattaessa Pokémon-listaa:", error);
-            document.getElementById("nimi").innerHTML =
-                "Pokémon-listaa ei voitu ladata...";
-        });
+                    // Käydään läpi kaikki Pokémonit ja lisätään ne dropdowniin
+                    data.results.forEach(p => {
+                        const opt = document.createElement("option");
+                        opt.value = p.name;
+                        //
+                        opt.textContent = p.name.charAt(0).toUpperCase() + p.name.slice(1);
+                        select.appendChild(opt);
+                    });
+                })
+                .catch(error => {
+                    // Näytetään virhe
+                    console.error("Virhe ladattaessa Pokémon-listaa:", error);
+                    document.getElementById("nimi").innerHTML =
+                        "Pokémon-listaa ei voitu ladata...";
+                });
 
-    // Hae Pokémonit
-    function poke() {
-        const input = document.getElementById("pokemonName").value.toLowerCase().trim();
-        const dropdown = document.getElementById("pokemonSelect").value;
+            // Hae Pokémonit
+            function poke() {
+                const input = document.getElementById("pokemonName").value.toLowerCase().trim();
+                const dropdown = document.getElementById("pokemonSelect").value;
 
-        // Priorisoi dropdownin valintaa, mutta hyväksyy myös tekstikentän syötteen
-        const pokeName = dropdown || input;
+                // Priorisoi dropdownin valintaa, mutta hyväksyy myös tekstikentän syötteen
+                const pokeName = dropdown || input;
 
-        // Jos ei nimeä, näytä ohje
-        if (!pokeName) {
-            document.getElementById("nimi").innerHTML = "Anna nimi tai valitse listasta!";
-            document.getElementById("kuva2").innerHTML = "";
+                // Jos ei nimeä, näytä ohje
+                if (!pokeName) {
+                    document.getElementById("nimi").innerHTML = "Anna nimi tai valitse listasta!";
+                    document.getElementById("kuva2").innerHTML = "";
 
-            // Jotta funktio ei jatkaisi ilman nimeä, palautetaan tässä vaiheessa
-            return;
-        }
-
-        // Näytetään latausviesti...
-        document.getElementById("nimi").innerHTML = "Haetaan...";
-        document.getElementById("kuva2").innerHTML = "";
-
-        // Hae Pokémonin tiedot API:sta, virheenkäsittely mukana vaikka niitä ei ehkä tarvitse.
-        fetch(`https://pokeapi.co/api/v2/pokemon/${pokeName}`)
-            .then(response => {
-                // Tarkistetaan että Pokémon löytyi
-                if (response.status === 404) throw new Error("Ei löydy");
-                if (!response.ok) throw new Error("Palvelinvirhe");
-                return response.json();
-            })
-            .then(data => {
-                // Tarkistetaan että sprite löytyy
-                if (!data.sprites || !data.sprites.front_default) {
-                    throw new Error("Kuvaa ei saatavilla");
+                    // Jotta funktio ei jatkaisi ilman nimeä, palautetaan tässä vaiheessa
+                    return;
                 }
 
-                pokekuva(data, pokeName);
-            })
-            .catch(error => {
-                console.error("Virhe haettaessa Pokémonia:", error);
-                document.getElementById("nimi").innerHTML =
-                    "Pokémonia ei löytynyt, tarkista nimi!";
+                // Näytetään latausviesti...
+                document.getElementById("nimi").innerHTML = "Haetaan...";
                 document.getElementById("kuva2").innerHTML = "";
-            });
 
-            //Virheenkäsittelyn luonnin apuna käytetty koodieditori ZED.DEV:in Inline Assist-työkalun ehdotusten avulla.
-            //Kommenttien sisältöä myös luotu samalla tavalla.
-    }
+                // Hae Pokémonin tiedot API:sta, virheenkäsittely mukana vaikka niitä ei ehkä tarvitse.
+                fetch(`https://pokeapi.co/api/v2/pokemon/${pokeName}`)
+                    .then(response => {
+                        // Tarkistetaan että Pokémon löytyi
+                        if (response.status === 404) throw new Error("Ei löydy");
+                        if (!response.ok) throw new Error("Palvelinvirhe");
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Tarkistetaan että sprite löytyy
+                        if (!data.sprites || !data.sprites.front_default) {
+                            throw new Error("Kuvaa ei saatavilla");
+                        }
 
-    // Näytä kuva ja nimi
-    function pokekuva(obj, name) {
-        const pokeurl = obj.sprites.front_default;
+                        pokekuva(data, pokeName);
+                    })
+                    .catch(error => {
+                        console.error("Virhe haettaessa Pokémonia:", error);
+                        document.getElementById("nimi").innerHTML =
+                            "Pokémonia ei löytynyt, tarkista nimi!";
+                        document.getElementById("kuva2").innerHTML = "";
+                    });
 
-        document.getElementById("kuva2").innerHTML = `<img src="${pokeurl}" alt="Pokemonin kuva">`;
-        document.getElementById("nimi").innerHTML =
-            `<b>${name.charAt(0).toUpperCase() + name.slice(1)}</b>`;
+                //Virheenkäsittelyn luonnin apuna käytetty koodieditori ZED.DEV:in Inline Assist-työkalun ehdotusten avulla.
+                //Kommenttien sisältöä myös luotu samalla tavalla.
+            }
 
-        // Tyhjennetään kentät haun jälkeen
-        document.getElementById("pokemonName").value = "";
-        document.getElementById("pokemonSelect").value = "";
-    }
-</script>
+            // Näytä kuva ja nimi
+            function pokekuva(obj, name) {
+                const pokeurl = obj.sprites.front_default;
+
+                document.getElementById("kuva2").innerHTML = `<img src="${pokeurl}" alt="Pokemonin kuva">`;
+                document.getElementById("nimi").innerHTML =
+                    `<b>${name.charAt(0).toUpperCase() + name.slice(1)}</b>`;
+
+                // Tyhjennetään kentät haun jälkeen
+                document.getElementById("pokemonName").value = "";
+                document.getElementById("pokemonSelect").value = "";
+            }
+        </script>
 
 
     </main>
 
-    <footer class="">
+    <footer>
         &copy; 2026 Digipage
     </footer>
 </body>

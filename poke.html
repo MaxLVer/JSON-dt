@@ -46,7 +46,9 @@
     <main>
         <!-- #poke, tyylejä varten -->
         <div id="poke">
-            <h1>Pokemon Haku</h1>
+            <!-- Sisältö -->
+
+            <h1>Pokémon Haku</h1>
             <hr>
 
             <input type="text" id="pokemonName" placeholder="Enter Pokemon name">
@@ -97,18 +99,19 @@
         const input = document.getElementById("pokemonName").value.toLowerCase().trim();
         const dropdown = document.getElementById("pokemonSelect").value;
 
-        // Priorisoi dropdownin valinta, mutta hyväksy myös tekstikentän syöte
+        // Priorisoi dropdownin valintaa, mutta hyväksyy myös tekstikentän syötteen
         const pokeName = dropdown || input;
 
         // Jos ei nimeä, näytä ohje
         if (!pokeName) {
             document.getElementById("nimi").innerHTML = "Anna nimi tai valitse listasta!";
             document.getElementById("kuva2").innerHTML = "";
+
             // Jotta funktio ei jatkaisi ilman nimeä, palautetaan tässä vaiheessa
             return;
         }
 
-        // Näytetään latausviesti
+        // Näytetään latausviesti...
         document.getElementById("nimi").innerHTML = "Haetaan...";
         document.getElementById("kuva2").innerHTML = "";
 
@@ -143,11 +146,11 @@
     function pokekuva(obj, name) {
         const pokeurl = obj.sprites.front_default;
 
-        document.getElementById("kuva2").innerHTML = `<img src="${pokeurl}" alt="Pokemon kuva">`;
+        document.getElementById("kuva2").innerHTML = `<img src="${pokeurl}" alt="Pokemonin kuva">`;
         document.getElementById("nimi").innerHTML =
             `<b>${name.charAt(0).toUpperCase() + name.slice(1)}</b>`;
 
-        // Tyhjennetään kentät onnistuneen haun jälkeen
+        // Tyhjennetään kentät haun jälkeen
         document.getElementById("pokemonName").value = "";
         document.getElementById("pokemonSelect").value = "";
     }
